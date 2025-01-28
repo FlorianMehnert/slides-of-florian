@@ -67,6 +67,43 @@ public partial class PresenterBehaviour : MonoBehaviour
                 this.currSlide = this.currSlide - 1; //slidenumber has to be in the range of slides
             }
         }
+        
+        if (Input.touchCount > 0) // Check if there is at least one touch
+        {
+            Touch touch = Input.GetTouch(0); // Get the first touch
+
+            switch (touch.phase)
+            {
+                case TouchPhase.Began:
+                    touchStartPos = touch.position;
+                    break;
+
+                case TouchPhase.Ended:
+                    Vector2 touchEndPos = touch.position;
+                    Vector2 swipeDelta = touchEndPos - touchStartPos;
+
+                    if (Mathf.Abs(swipeDelta.x) > 50) // Adjust the threshold as needed
+                    {
+                        if (swipeDelta.x > 0)
+                        {
+                            if (currSlide > 0)
+                            {
+                                currSlide--;
+                            }
+                        }
+                        else
+                        {
+                            // Swipe left: go to the next slide
+                            if (currSlide < (slidesNum - 1))
+                            {
+                                currSlide++;
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+        
         /*
         Slide transitions:
         Transition is either 0 or some positive float. If zero no animation happens, if the number is bigger then zero, then
