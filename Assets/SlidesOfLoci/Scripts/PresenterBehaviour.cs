@@ -68,17 +68,16 @@ public class PresenterBehaviour : MonoBehaviour
         
         if (Input.touchCount > 0) // Check if there is at least one touch
         {
-            Touch touch = Input.GetTouch(0); // Get the first touch
-
+            var touch = Input.GetTouch(0); // Get the first touch
+            var touchStartPos = touch.position;
             switch (touch.phase)
             {
                 case TouchPhase.Began:
-                    touchStartPos = touch.position;
                     break;
 
                 case TouchPhase.Ended:
-                    Vector2 touchEndPos = touch.position;
-                    Vector2 swipeDelta = touchEndPos - touchStartPos;
+                    var touchEndPos = touch.position;
+                    var swipeDelta = touchEndPos - touchStartPos;
 
                     if (Mathf.Abs(swipeDelta.x) > 50) // Adjust the threshold as needed
                     {
@@ -91,14 +90,19 @@ public class PresenterBehaviour : MonoBehaviour
                         }
                         else
                         {
-                            // Swipe left: go to the next slide
-                            if (currSlide < (slidesNum - 1))
+                            if (currSlide < (_slidesNum - 1))
                             {
                                 currSlide++;
                             }
                         }
                     }
                     break;
+                case TouchPhase.Moved:
+                case TouchPhase.Stationary:
+                case TouchPhase.Canceled:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
         
@@ -108,7 +112,7 @@ public class PresenterBehaviour : MonoBehaviour
         the transition time attribute of the current slide will control the speed of the transition.
 
         The camera that goes through the scenes will inherit some attributes of the camera of the given slides.
-        Currently these are:
+        Currently, these are:
          	-  clipping planes
          	-  skybox
 
