@@ -12,7 +12,7 @@ public class PresenterBehaviour : MonoBehaviour
     public virtual void Start()
     {
         // set the camera field of view to be compatible with the screen and keep the FOVhorizontal constant
-        this.GetComponent<Camera>().fieldOfView = (((GetComponent<Camera>().fieldOfView * 16) / 9) * 1) / GetComponent<Camera>().aspect;
+        this.GetComponent<Camera>().fieldOfView = GetComponent<Camera>().fieldOfView * 16 / 9 * 1 / GetComponent<Camera>().aspect;
         /*
         We use two tags to reference and organize slides (scenes) : Slide and Section
 
@@ -90,7 +90,7 @@ public class PresenterBehaviour : MonoBehaviour
                         }
                         else
                         {
-                            if (currSlide < (_slidesNum - 1))
+                            if (currSlide < _slidesNum - 1)
                             {
                                 currSlide++;
                             }
